@@ -10,6 +10,10 @@
       <div class="card-body text-center">
         <a href="{{ route('product.show', ['id'=> $product->getId()]) }}"
           class="btn bg-primary text-white">{{ $product->getName() }}</a>
+        <p class="mt-2">
+          <strong>Catégorie :</strong>
+          {{ $product->category ? $product->category->name : 'Non catégorisé' }}
+        </p>
       </div>
     </div>
   </div>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Item;
+use App\Models\Category;
 
 class Product extends Model
 {
@@ -18,6 +19,11 @@ class Product extends Model
      * $this->attributes['updated_at'] - timestamp - contains the product update date
      * $this->items - Item[] - contains the associated items
      */
+
+     public function category()
+{
+    return $this->belongsTo(Category::class);
+}
 
     public static function validate($request)
     {
