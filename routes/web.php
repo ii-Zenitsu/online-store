@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name("
 
 
 Route::resource('categories', CategoryController::class);
+Route::get('/products/{category?}', [ProductController::class, 'index'])->name('product.index');
  
 Route::middleware('auth')->group(function () {
     Route::get('/cart/purchase', 'App\Http\Controllers\CartController@purchase')->name("cart.purchase");

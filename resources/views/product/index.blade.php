@@ -2,6 +2,24 @@
 @section('title', $viewData["title"])
 @section('subtitle', $viewData["subtitle"])
 @section('content')
+
+<!-- Formulaire de filtrage par catégorie -->
+<div class="mb-4">
+  <form action="{{ route('product.index') }}" method="GET">
+    <label for="category">Filtrer par catégorie :</label>
+    <select id="category" name="category" onchange="this.form.submit()">
+      <option value="">Toutes les catégories</option>
+      @foreach ($viewData["categories"] as $cat)
+        <option value="{{ $cat->name }}"
+          {{ request()->get('category') == $cat->name ? 'selected' : '' }}>
+          {{ $cat->name }}
+        </option>
+      @endforeach
+    </select>
+  </form>
+</div>
+
+<!-- Liste des produits -->
 <div class="row">
   @foreach ($viewData["products"] as $product)
   <div class="col-md-4 col-lg-3 mb-2">
@@ -19,4 +37,5 @@
   </div>
   @endforeach
 </div>
+
 @endsection
