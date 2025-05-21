@@ -3,7 +3,7 @@
 @section('content')
 <h2>Ajouter une catégorie</h2>
 
-<form action="{{ route('categories.store') }}" method="POST">
+<form action="{{ route('admin.category.store') }}" method="POST">
     @csrf
     <label>Nom :</label>
     <input type="text" name="name" required>
@@ -13,5 +13,5 @@
 
     <button type="submit">Ajouter</button>
 </form>
-<a href="{{ route('categories.index') }}">← Retour</a>
+<a href="{{ route('admin.category.index') }}">← Retour</a>
 @endsection

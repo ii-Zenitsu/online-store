@@ -3,7 +3,7 @@
 @section('content')
 <h2>Modifier la catégorie</h2>
 
-<form action="{{ route('categories.update', $category->id) }}" method="POST">
+<form action="{{ route('admin.category.update', ['category' => $category->id]) }}" method="POST">
     @csrf
     @method('PUT')
 
@@ -15,5 +15,5 @@
 
     <button type="submit">Mettre à jour</button>
 </form>
-<a href="{{ route('categories.index') }}">← Retour</a>
+<a href="{{ route('admin.category.index') }}">← Retour</a>
 @endsection

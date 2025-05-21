@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Http\Controllers\Controller;
 
-class CategoryController extends Controller
+class AdminCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class CategoryController extends Controller
    public function index()
 {
     $categories = Category::all();
-    return view('categories.index', compact('categories'));
+    return view('admin.category.index', compact('categories'));
 }
 
     /**
@@ -21,7 +22,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-    return view('categories.create');
+    return view('admin.category.create');
     }
 
     /**
@@ -35,7 +36,7 @@ class CategoryController extends Controller
     ]);
 
     Category::create($request->all());
-    return redirect()->route('categories.index')->with('success', 'Catégorie ajoutée.');
+    return redirect()->route('admin.category.index')->with('success', 'Catégorie ajoutée.');
 }
 
     /**
@@ -51,7 +52,7 @@ class CategoryController extends Controller
      */
    public function edit(Category $category)
 {
-    return view('categories.edit', compact('category'));
+    return view('admin.category.edit', compact('category'));
 }
 
     /**
@@ -65,7 +66,7 @@ class CategoryController extends Controller
     ]);
 
     $category->update($request->all());
-    return redirect()->route('categories.index')->with('success', 'Catégorie mise à jour.');
+    return redirect()->route('admin.category.index')->with('success', 'Catégorie mise à jour.');
 }
 
     /**
@@ -73,7 +74,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
 {
+        // dd($category);
     $category->delete();
-    return redirect()->route('categories.index')->with('success', 'Catégorie supprimée.');
+    return redirect()->route('admin.category.index')->with('success', 'Catégorie supprimée.');
 }
 }

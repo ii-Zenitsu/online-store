@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 
 /*
@@ -26,7 +25,6 @@ Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name("
 Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name("cart.add");
 
 
-Route::resource('categories', CategoryController::class);
 Route::get('/products/{category?}', [ProductController::class, 'index'])->name('product.index');
  
 Route::middleware('auth')->group(function () {
@@ -35,6 +33,13 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('admin')->group(function () {
+
+    Route::get('/admin/categories', 'App\Http\Controllers\Admin\AdminCategoryController@index')->name("admin.category.index");
+    Route::post('/admin/categories/store', 'App\Http\Controllers\Admin\AdminCategoryController@store')->name("admin.category.store");
+    Route::delete('/admin/categories/{category}', 'App\Http\Controllers\Admin\AdminCategoryController@destroy')->name("admin.category.destroy");
+    Route::get('/admin/categories/{category}/edit', 'App\Http\Controllers\Admin\AdminCategoryController@edit')->name("admin.category.edit");
+    Route::put('/admin/categories/{category}/update', 'App\Http\Controllers\Admin\AdminCategoryController@update')->name("admin.category.update");
+    Route::get('/admin/categories/create', 'App\Http\Controllers\Admin\AdminCategoryController@create')->name("admin.category.create");
     Route::get('/admin', 'App\Http\Controllers\Admin\AdminHomeController@index')->name("admin.home.index");
     Route::get('/admin/products', 'App\Http\Controllers\Admin\AdminProductController@index')->name("admin.product.index");
     Route::post('/admin/products/store', 'App\Http\Controllers\Admin\AdminProductController@store')->name("admin.product.store");

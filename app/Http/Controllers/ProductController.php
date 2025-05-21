@@ -26,7 +26,6 @@ class ProductController extends Controller
         $viewData["subtitle"] = $category ? "Produits de la catégorie $category" : "Tous les produits";
         $viewData["products"] = $products;
         $viewData["categories"] = $categories;
-
         return view('product.index')->with("viewData", $viewData);
     }
 
