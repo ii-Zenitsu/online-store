@@ -27,7 +27,7 @@ class ProductController extends Controller
         $viewData["products"] = $products;
         $viewData["categories"] = $categories;
 
-        return view('products.index')->with("viewData", $viewData);
+        return view('product.index')->with("viewData", $viewData);
     }
 
 
