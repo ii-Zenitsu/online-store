@@ -49,6 +49,22 @@
           &nbsp;
         </div>
       </div>
+      <div class="col">
+        <div class="mb-3 row">
+          <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Supplier Name</label>
+          <select name="supplier_id" class="col-lg-10 col-md-6 col-sm-12">
+            <option value="" disabled {{ old('supplier_id', $viewData["product"]->supplier_id) ? '' : 'selected' }}>
+                Select Supplier
+            </option>
+            @foreach ($viewData["suppliers"] as $supplier)
+                <option value="{{ $supplier->id }}"
+                    {{ old('supplier_id', $viewData["product"]->supplier_id) == $supplier->id ? 'selected' : '' }}>
+                    {{ $supplier->raison_sociale }}
+                </option>
+            @endforeach
+        </select>
+        </div>
+      </div>
       <div class="mb-3">
         <label class="form-label">Description</label>
         <textarea class="form-control" name="description"

@@ -158,5 +158,12 @@ class Product extends Model
     public function isDiscounted()
     {
         return $this->currentDiscount() !== null;
+    public function setSupplierId($supplier_id)
+    {
+        return $this->attributes['supplier_id']=$supplier_id;
+    }
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 }
