@@ -21,7 +21,7 @@
           <div class="mb-3 row">
             <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Name:</label>
             <div class="col-lg-10 col-md-6 col-sm-12">
-              <input name="name" value="{{ old('name') }}" type="text" class="form-control">
+              <input name="name" value="{{ old('name') }}" type="text" class="form-control" required>
             </div>
           </div>
         </div>
@@ -29,11 +29,26 @@
           <div class="mb-3 row">
             <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Price:</label>
             <div class="col-lg-10 col-md-6 col-sm-12">
-              <input name="price" value="{{ old('price') }}" type="number" class="form-control">
+              <input name="price" value="{{ old('price') }}" type="number" class="form-control" required>
             </div>
           </div>
         </div>
       </div>
+      
+      <div class="row">
+        <div class="col">
+          <div class="mb-3 row">
+            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Quantity in stock:</label>
+            <div class="col-lg-10 col-md-6 col-sm-12">
+              <input name="quantity_store" value="{{ old('quantity_store', 0) }}" type="number" min="0" class="form-control" required>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          &nbsp;
+        </div>
+      </div>
+
       <div class="row">
         <div class="col">
           <div class="mb-3 row">
@@ -61,38 +76,53 @@
     Manage Products
   </div>
   <div class="card-body">
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Edit</th>
-          <th scope="col">Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($viewData["products"] as $product)
-        <tr>
-          <td>{{ $product->getId() }}</td>
-          <td>{{ $product->getName() }}</td>
-          <td>
-            <a class="btn btn-primary" href="{{route('admin.product.edit', ['id'=> $product->getId()])}}">
-              <i class="bi-pencil"></i>
-            </a>
-          </td>
-          <td>
-            <form action="{{ route('admin.product.delete', $product->getId())}}" method="POST">
-              @csrf
-              @method('DELETE')
-              <button class="btn btn-danger">
-                <i class="bi-trash"></i>
-              </button>
-            </form>
-          </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
+    <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Quantity in stock</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach ($viewData["products"] as $product)
+    @php
+      $quantity = $product->getQuantityStore();
+      $rowStyle = '';
+
+      if ($quantity == 0) {
+          $rowStyle = 'background-color: #f8d7da;'; // rouge clair
+      } elseif ($quantity < 10) {
+          $rowStyle = 'background-color: #fff3cd;'; // orange clair
+      } else {
+          $rowStyle = 'background-color: #d4edda;'; // vert clair
+      }
+    @endphp
+    <tr style="{{ $rowStyle }}">
+      <td>{{ $product->getId() }}</td>
+      <td>{{ $product->getName() }}</td>
+      <td>{{ $product->quantity_store }}</td>
+      <td>
+        <a class="btn btn-primary" href="{{ route('admin.product.edit', ['id'=> $product->getId()]) }}">
+          <i class="bi-pencil"></i>
+        </a>
+      </td>
+      <td>
+        <form action="{{ route('admin.product.delete', $product->getId())}}" method="POST">
+          @csrf
+          @method('DELETE')
+          <button class="btn btn-danger">
+            <i class="bi-trash"></i>
+          </button>
+        </form>
+      </td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
+
   </div>
 </div>
 @endsection
