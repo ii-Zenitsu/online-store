@@ -146,7 +146,7 @@ class Product extends Model
             ->first();
     }
 
-    
+
     public function discountedPrice()
     {
         $discount = $this->currentDiscount();
@@ -155,5 +155,8 @@ class Product extends Model
         }
         return $this->price;
     }
-
+    public function isDiscounted()
+    {
+        return $this->currentDiscount() !== null;
+    }
 }

@@ -61,6 +61,13 @@
     Manage Products
   </div>
   <div class="card-body">
+    <form method="GET" class="mb-3">
+      <label>
+        <input type="checkbox" name="discounted" value="1" {{ request('discounted') ? 'checked' : '' }}>
+        Produits soldés
+      </label>
+      <button type="submit" class="btn btn-sm btn-primary">Filtrer</button>
+    </form>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -74,7 +81,17 @@
         @foreach ($viewData["products"] as $product)
         <tr>
           <td>{{ $product->getId() }}</td>
-          <td>{{ $product->getName() }}</td>
+           {{-- Affichage du prix barré --}}
+          <td>
+            {{ $product->getName() }}<br>
+            
+            @if($product->currentDiscount())
+                <del>{{ $product->price }} DH</del><br>
+                <strong>{{ $product->discountedPrice() }} DH</strong>
+            @else
+                <p>{{ $product->price }} DH </p>
+            @endif
+          </td>          
           <td>
             <a class="btn btn-primary" href="{{route('admin.product.edit', ['id'=> $product->getId()])}}">
               <i class="bi-pencil"></i>
