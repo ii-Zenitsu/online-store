@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Models\Supplier;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,6 +17,7 @@ class AdminProductController extends Controller
         $viewData["title"] = "Admin Page - Products - Online Store";
         $viewData["products"] = Product::paginate(10);
         $viewData["suppliers"] = Supplier::all();
+        $viewData["categories"] = Category::all(); 
         return view('admin.product.index')->with("viewData", $viewData);
     }
 

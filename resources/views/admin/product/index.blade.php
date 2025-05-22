@@ -57,6 +57,18 @@
             @endforeach
           </select>
         </div>
+                <div class="mb-3 row">
+          <form method="GET" action="{{ route('admin.product.index') }}" class="mb-3 d-flex" style="gap: 10px;">
+    <select name="categorie_id" class="form-control" style="max-width: 250px;">
+      <option value="">sélectionner une categorie</option>
+      @foreach ($viewData["categories"] as $category)
+        <option value="{{ $category->id }}" {{ request('categorie_id') == $category->id ? 'selected' : '' }}>
+          {{ $category->name }}
+        </option>
+      @endforeach
+    </select>
+  </form>
+  </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Description</label>
@@ -72,6 +84,17 @@
     Manage Products
   </div>
   <div class="card-body">
+    <form method="GET" action="{{ route('admin.product.index') }}" class="mb-3 d-flex" style="gap: 10px;">
+  <select name="categorie_id" class="form-control" style="max-width: 250px;">
+    <option value="">-- Filtrer par catégorie --</option>
+    @foreach ($viewData["categories"] as $category)
+      <option value="{{ $category->id }}" {{ request('categorie_id') == $category->id ? 'selected' : '' }}>
+        {{ $category->name }}
+      </option>
+    @endforeach
+  </select>
+  <button type="submit" class="btn btn-secondary">Filtrer</button>
+</form>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
