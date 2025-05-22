@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,6 +15,7 @@ class AdminProductController extends Controller
         $viewData = [];
         $viewData["title"] = "Admin Page - Products - Online Store";
         $viewData["products"] = Product::all();
+        $viewData["suppliers"] = Supplier::all();
         return view('admin.product.index')->with("viewData", $viewData);
     }
 
@@ -26,6 +28,7 @@ class AdminProductController extends Controller
         $newProduct->setDescription($request->input('description'));
         $newProduct->setPrice($request->input('price'));
         $newProduct->setImage("game.png");
+        $newProduct->setSupplierId($request->input('supplier_id'));
         $newProduct->save();
 
         if ($request->hasFile('image')) {
@@ -52,6 +55,7 @@ class AdminProductController extends Controller
         $viewData = [];
         $viewData["title"] = "Admin Page - Edit Product - Online Store";
         $viewData["product"] = Product::findOrFail($id);
+        $viewData["suppliers"] = Supplier::all();
         return view('admin.product.edit')->with("viewData", $viewData);
     }
 
@@ -63,6 +67,7 @@ class AdminProductController extends Controller
         $product->setName($request->input('name'));
         $product->setDescription($request->input('description'));
         $product->setPrice($request->input('price'));
+        $product->setSupplierId($request->input('supplier_id'));
 
         if ($request->hasFile('image')) {
             $imageName = $product->getId().".".$request->file('image')->extension();
@@ -75,5 +80,24 @@ class AdminProductController extends Controller
 
         $product->save();
         return redirect()->route('admin.product.index');
+    }
+    public function filterparsupplier(Request $request)
+    {
+        $supplier_id = $request->input('supplier_id');
+        $viewData = [];
+        $viewData["title"] = "Admin Page - Products - Online Store";
+        if(
+            $supplier_id == "" 
+        ){
+            $viewData["products"] = Product::all();
+ 
+        }else{
+            $viewData["products"] = Product::where('supplier_id', $supplier_id)->get();
+        }
+
+        // $viewData["categories"] = Category::all();
+        $viewData["suppliers"] = Supplier::all();
+
+        return view('admin.product.index')->with("viewData", $viewData);
     }
 }

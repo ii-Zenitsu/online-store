@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminSupplierController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +37,14 @@ Route::middleware('admin')->group(function () {
     Route::delete('/admin/products/{id}/delete', 'App\Http\Controllers\Admin\AdminProductController@delete')->name("admin.product.delete");
     Route::get('/admin/products/{id}/edit', 'App\Http\Controllers\Admin\AdminProductController@edit')->name("admin.product.edit");
     Route::put('/admin/products/{id}/update', 'App\Http\Controllers\Admin\AdminProductController@update')->name("admin.product.update");
+    Route::get('/admin/filtered-products-supplier', [AdminProductController::class, 'filterparsupplier'])->name("admin.product.filterparsupplier");
+    
+    Route::get('/admin/supplier',[AdminSupplierController::class, 'index'])->name("admin.supplier.index");
+    Route::post('/admin/supplier/store', [AdminSupplierController::class, 'store'])->name("admin.supplier.store");
+    Route::get('/admin/supplier/{id}/edit',[AdminSupplierController::class, 'edit'])->name("admin.supplier.edit");
+    Route::put('/admin/supplier/{id}/update',[AdminSupplierController::class, 'update'])->name("admin.supplier.update");
+    Route::delete('/admin/supplier/{id}/destroy',[AdminSupplierController::class, 'destroy'])->name("admin.supplier.destroy");
 });
+
 
 Auth::routes();

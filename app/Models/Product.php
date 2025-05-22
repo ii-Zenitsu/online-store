@@ -123,4 +123,12 @@ class Product extends Model
     {
         $this->items = $items;
     }
+    public function setSupplierId($supplier_id)
+    {
+        return $this->attributes['supplier_id']=$supplier_id;
+    }
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
 }

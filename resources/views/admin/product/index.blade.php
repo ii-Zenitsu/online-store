@@ -47,6 +47,17 @@
           &nbsp;
         </div>
       </div>
+      <div class="col">
+        <div class="mb-3 row">
+          <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Supplier Name:</label>
+          <select name="supplier_id" id="" class="form-control">
+            <option value="" disabled selected>Select Supplier</option>
+            @foreach ($viewData["suppliers"] as $supplier)
+            <option  value="{{ $supplier->id }}">{{ $supplier->raison_sociale }}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
       <div class="mb-3">
         <label class="form-label">Description</label>
         <textarea class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
@@ -61,11 +72,25 @@
     Manage Products
   </div>
   <div class="card-body">
+    <form method="GET" action="{{ route('admin.product.filterparsupplier') }}">
+      <div class="mb-3">
+        <label class="form-label">Filter by Supplier:</label>
+        <select name="supplier_id" class="form-control" onchange="this.form.submit()">
+          <option value="">All Supplier</option>
+          @foreach ($viewData["suppliers"] as $supplier)
+          <option value="{{ $supplier->id }}" {{ request('supplier_id') == $supplier->id ? 'selected' : '' }}>
+            {{ $supplier->raison_sociale }}
+          </option>
+          @endforeach
+        </select>
+      </div>
+    </form>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Name</th>
+          <th scope="col">Supplier</th>
           <th scope="col">Edit</th>
           <th scope="col">Delete</th>
         </tr>
@@ -75,6 +100,7 @@
         <tr>
           <td>{{ $product->getId() }}</td>
           <td>{{ $product->getName() }}</td>
+          <td>{{ $product->supplier->raison_sociale }}</td>
           <td>
             <a class="btn btn-primary" href="{{route('admin.product.edit', ['id'=> $product->getId()])}}">
               <i class="bi-pencil"></i>
