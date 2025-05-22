@@ -106,51 +106,7 @@
         </select>
       </div>
     </form>
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Supplier</th>
-          <th scope="col">Edit</th>
-          <th scope="col">Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($viewData["products"] as $product)
-        <tr>
-          <td>{{ $product->getId() }}</td>
-           {{-- Affichage du prix barré --}}
-          <td>
-            {{ $product->getName() }}<br>
-            
-            @if($product->currentDiscount())
-                <del>{{ $product->price }} DH</del><br>
-                <strong>{{ $product->discountedPrice() }} DH</strong>
-            @else
-                <p>{{ $product->price }} DH </p>
-            @endif
-          </td>          
-          <td>{{ $product->getName() }}</td>
-          <td>{{ $product->supplier->raison_sociale }}</td>
-          <td>
-            <a class="btn btn-primary" href="{{route('admin.product.edit', ['id'=> $product->getId()])}}">
-              <i class="bi-pencil"></i>
-            </a>
-          </td>
-          <td>
-            <form action="{{ route('admin.product.delete', $product->getId())}}" method="POST">
-              @csrf
-              @method('DELETE')
-              <button class="btn btn-danger">
-                <i class="bi-trash"></i>
-              </button>
-            </form>
-          </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
+    
     <div class="d-flex justify-content-center mt-3">
         {{ $viewData['products']->links() }}
     </div>
@@ -159,6 +115,7 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Name</th>
+      <th scope="col">Supplier</th>
       <th scope="col">Quantity in stock</th>
       <th scope="col">Edit</th>
       <th scope="col">Delete</th>
@@ -181,6 +138,7 @@
     <tr style="{{ $rowStyle }}">
       <td>{{ $product->getId() }}</td>
       <td>{{ $product->getName() }}</td>
+      <td>{{ $product->supplier->raison_sociale }}</td>
       <td>{{ $product->quantity_store }}</td>
       <td>
         <a class="btn btn-primary" href="{{ route('admin.product.edit', ['id'=> $product->getId()]) }}">

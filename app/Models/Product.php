@@ -33,6 +33,8 @@ protected $fillable = [
     'quantity_store',
 ];
 
+    
+
 
 
     public static function validate($request)
