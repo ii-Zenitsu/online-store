@@ -34,7 +34,7 @@ class ProductController extends Controller
         });
     }
 
-    $products = $query->get();
+    $products = $query->paginate(6);
 
     $viewData = [];
     $viewData["title"] = "Liste des produits";
