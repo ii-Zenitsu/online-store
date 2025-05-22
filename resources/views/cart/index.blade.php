@@ -3,6 +3,18 @@
 @section('subtitle', $viewData["subtitle"])
 @section('content')
 <div class="card">
+ @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if ($errors->has('stock'))
+    <div class="alert alert-danger">
+        {{ $errors->first('stock') }}
+    </div>
+@endif
+
   <div class="card-header">
     Products in Cart
   </div>
