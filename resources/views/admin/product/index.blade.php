@@ -72,6 +72,25 @@
     Manage Products
   </div>
   <div class="card-body">
+    <form method="GET" class="mb-3">
+      <label>
+        <input type="checkbox" name="discounted" value="1" {{ request('discounted') ? 'checked' : '' }}>
+        Produits soldés
+      </label>
+      <button type="submit" class="btn btn-sm btn-primary">Filtrer</button>
+    <form method="GET" action="{{ route('admin.product.filterparsupplier') }}">
+      <div class="mb-3">
+        <label class="form-label">Filter by Supplier:</label>
+        <select name="supplier_id" class="form-control" onchange="this.form.submit()">
+          <option value="">All Supplier</option>
+          @foreach ($viewData["suppliers"] as $supplier)
+          <option value="{{ $supplier->id }}" {{ request('supplier_id') == $supplier->id ? 'selected' : '' }}>
+            {{ $supplier->raison_sociale }}
+          </option>
+          @endforeach
+        </select>
+      </div>
+    </form>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -86,7 +105,19 @@
         @foreach ($viewData["products"] as $product)
         <tr>
           <td>{{ $product->getId() }}</td>
+           {{-- Affichage du prix barré --}}
+          <td>
+            {{ $product->getName() }}<br>
+            
+            @if($product->currentDiscount())
+                <del>{{ $product->price }} DH</del><br>
+                <strong>{{ $product->discountedPrice() }} DH</strong>
+            @else
+                <p>{{ $product->price }} DH </p>
+            @endif
+          </td>          
           <td>{{ $product->getName() }}</td>
+          <td>{{ $product->supplier->raison_sociale }}</td>
           <td>
             <a class="btn btn-primary" href="{{route('admin.product.edit', ['id'=> $product->getId()])}}">
               <i class="bi-pencil"></i>
