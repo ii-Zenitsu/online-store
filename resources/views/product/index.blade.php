@@ -4,20 +4,7 @@
 @section('content')
 
 <!-- Formulaire de filtrage par catégorie -->
-<div class="mb-4">
-  <form action="{{ route('product.index') }}" method="GET">
-    <label for="category">Filtrer par catégorie :</label>
-    <select id="category" name="category" onchange="this.form.submit()">
-      <option value="">Toutes les catégories</option>
-      @foreach ($viewData["categories"] as $cat)
-        <option value="{{ $cat->name }}"
-          {{ request()->get('category') == $cat->name ? 'selected' : '' }}>
-          {{ $cat->name }}
-        </option>
-      @endforeach
-    </select>
-  </form>
-</div>
+
 
 <!-- Liste des produits -->
 <div class="row">

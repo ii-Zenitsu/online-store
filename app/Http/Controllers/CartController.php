@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Order;
 use App\Models\Item;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class CartController extends Controller
 {
@@ -31,10 +32,9 @@ class CartController extends Controller
 
     public function add(Request $request, $id)
     {
-        $products = $request->session()->get("products");
+        $products = json_decode(Cookie::get('products', '[]'), true);
         $products[$id] = $request->input('quantity');
-        $request->session()->put('products', $products);
-
+        Cookie::queue('products', json_encode($products), 60 * 24 * 7); 
         return redirect()->route('cart.index');
     }
 
