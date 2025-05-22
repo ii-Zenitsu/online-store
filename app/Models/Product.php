@@ -129,4 +129,31 @@ class Product extends Model
     {
         $this->items = $items;
     }
+
+
+
+    public function discounts() {
+    return $this->hasMany(Discount::class);
+    }
+
+
+    public function currentDiscount()
+    {
+        return $this->discounts()
+            ->whereDate('start_date', '<=', now())
+            ->whereDate('end_date', '>=', now())
+            ->latest()
+            ->first();
+    }
+
+    
+    public function discountedPrice()
+    {
+        $discount = $this->currentDiscount();
+        if ($discount) {
+            return $this->price * (1 - $discount->rate);
+        }
+        return $this->price;
+    }
+
 }
