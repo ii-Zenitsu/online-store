@@ -24,6 +24,9 @@
         <li><a href="{{ route('admin.product.index') }}" class="nav-link text-white">- Admin - Products</a></li>
         <li><a href="{{ route('admin.category.index') }}" class="nav-link text-white">- Admin - Categories</a></li>
         <li><a href="{{ route('admin.supplier.index') }}" class="nav-link text-white">- Admin - Supplier</a></li>
+        @if(Auth::user()->is_super_admin == 1)
+               <li><a href="{{ route('admin.user.index') }}" class="nav-link text-white">- Admin - Users</a></li>
+        @endif
         <li>
           <a href="{{ route('home.index') }}" class="mt-2 btn bg-primary text-white">Go back to the home page</a>
         </li>

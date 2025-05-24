@@ -13,12 +13,12 @@ class AdminUserController extends Controller
     public function index()
     {
         $viewData = [
-            'title' => 'Admin User Management',
-            'users' => User::paginate(10),
-        ];
-        return view('admin.user.index')->with("viewData", $viewData);
-    }
+        'title' => 'Admin User Management',
+        'users' => User::paginate(3),
+    ];
 
+        return view('admin.user.index', compact('viewData'));
+    }
 
     public function store(Request $request)
     {

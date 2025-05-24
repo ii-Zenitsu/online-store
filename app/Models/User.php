@@ -153,4 +153,8 @@ class User extends Authenticatable
     {
         $this->orders = $orders;
     }
+
+    public function getIsSuperAdmin(){
+        return $this -> is_super_admin;
+    }
 }
