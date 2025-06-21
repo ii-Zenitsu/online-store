@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('role')->default('client');
+            $table->boolean('is_super_admin')->default(false);
             $table->integer('balance');
         });
     }
@@ -32,3 +33,5 @@ return new class extends Migration
         });
     }
 };
+
+
