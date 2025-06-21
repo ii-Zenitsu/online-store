@@ -22,8 +22,8 @@ class AdminProductController extends Controller
     }
 
     public function store(Request $request)
-    {
-        Product::validate($request);
+{
+    Product::validate($request);
 
         $newProduct = new Product();
         $newProduct->setName($request->input('name'));
@@ -31,20 +31,22 @@ class AdminProductController extends Controller
         $newProduct->setPrice($request->input('price'));
         $newProduct->setImage("game.png");
         $newProduct->setSupplierId($request->input('supplier_id'));
+    $newProduct->setQuantityStore($request->input('quantity_store'));
+    $newProduct->setImage("game.png");
+    $newProduct->save();
+
+    if ($request->hasFile('image')) {
+        $imageName = $newProduct->getId().".".$request->file('image')->extension();
+        Storage::disk('public')->put(
+            $imageName,
+            file_get_contents($request->file('image')->getRealPath())
+        );
+        $newProduct->setImage($imageName);
         $newProduct->save();
-
-        if ($request->hasFile('image')) {
-            $imageName = $newProduct->getId().".".$request->file('image')->extension();
-            Storage::disk('public')->put(
-                $imageName,
-                file_get_contents($request->file('image')->getRealPath())
-            );
-            $newProduct->setImage($imageName);
-            $newProduct->save();
-        }
-
-        return back();
     }
+
+    return back();
+}
 
     public function delete($id)
     {
@@ -62,44 +64,47 @@ class AdminProductController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        Product::validate($request);
+{
+    Product::validate($request);
 
         $product = Product::findOrFail($id);
         $product->setName($request->input('name'));
         $product->setDescription($request->input('description'));
         $product->setPrice($request->input('price'));
         $product->setSupplierId($request->input('supplier_id'));
+    $product->setQuantityStore($request->input('quantity_store'));
 
-        if ($request->hasFile('image')) {
-            $imageName = $product->getId().".".$request->file('image')->extension();
-            Storage::disk('public')->put(
-                $imageName,
-                file_get_contents($request->file('image')->getRealPath())
-            );
-            $product->setImage($imageName);
-        }
-
-        $product->save();
-        return redirect()->route('admin.product.index');
+    if ($request->hasFile('image')) {
+        $imageName = $product->getId().".".$request->file('image')->extension();
+        Storage::disk('public')->put(
+            $imageName,
+            file_get_contents($request->file('image')->getRealPath())
+        );
+        $product->setImage($imageName);
     }
-    public function filterparsupplier(Request $request)
-    {
-        $supplier_id = $request->input('supplier_id');
-        $viewData = [];
-        $viewData["title"] = "Admin Page - Products - Online Store";
-        if(
-            $supplier_id == "" 
-        ){
-            $viewData["products"] = Product::all();
- 
-        }else{
-            $viewData["products"] = Product::where('supplier_id', $supplier_id)->get();
-        }
+    
+    $product->save();
+    
+    return redirect()->route('admin.product.index');
+}
+public function filterparsupplier(Request $request)
+{
+    $supplier_id = $request->input('supplier_id');
+    $viewData = [];
+    $viewData["title"] = "Admin Page - Products - Online Store";
+    if(
+        $supplier_id == "" 
+    ){
+        $viewData["products"] = Product::all();
 
-        // $viewData["categories"] = Category::all();
-        $viewData["suppliers"] = Supplier::all();
-
-        return view('admin.product.index')->with("viewData", $viewData);
+    }else{
+        $viewData["products"] = Product::where('supplier_id', $supplier_id)->get();
     }
+
+    // $viewData["categories"] = Category::all();
+    $viewData["suppliers"] = Supplier::all();
+
+    return view('admin.product.index')->with("viewData", $viewData);
+}
+
 }

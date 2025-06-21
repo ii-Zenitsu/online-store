@@ -14,8 +14,7 @@
     </ul>
     @endif
 
-    <form method="POST" action="{{ route('admin.product.update', ['id'=> $viewData['product']->getId()]) }}"
-      enctype="multipart/form-data">
+    <form method="POST" action="{{ route('admin.product.update', ['id'=> $viewData['product']->getId()]) }}" enctype="multipart/form-data">
       @csrf
       @method('PUT')
       <div class="row">
@@ -23,7 +22,7 @@
           <div class="mb-3 row">
             <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Name:</label>
             <div class="col-lg-10 col-md-6 col-sm-12">
-              <input name="name" value="{{ $viewData['product']->getName() }}" type="text" class="form-control">
+              <input name="name" value="{{ $viewData['product']->getName() }}" type="text" class="form-control" required>
             </div>
           </div>
         </div>
@@ -31,11 +30,26 @@
           <div class="mb-3 row">
             <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Price:</label>
             <div class="col-lg-10 col-md-6 col-sm-12">
-              <input name="price" value="{{ $viewData['product']->getPrice() }}" type="number" class="form-control">
+              <input name="price" value="{{ $viewData['product']->getPrice() }}" type="number" class="form-control" required>
             </div>
           </div>
         </div>
       </div>
+      
+      <div class="row">
+        <div class="col">
+          <div class="mb-3 row">
+            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Quantity in stock:</label>
+            <div class="col-lg-10 col-md-6 col-sm-12">
+              <input name="quantity_store" value="{{ old('quantity_store', $viewData['product']->quantity_store) }}" type="number" min="0" class="form-control" required>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          &nbsp;
+        </div>
+      </div>
+
       <div class="row">
         <div class="col">
           <div class="mb-3 row">
@@ -67,8 +81,7 @@
       </div>
       <div class="mb-3">
         <label class="form-label">Description</label>
-        <textarea class="form-control" name="description"
-          rows="3">{{ $viewData['product']->getDescription() }}</textarea>
+        <textarea class="form-control" name="description" rows="3">{{ $viewData['product']->getDescription() }}</textarea>
       </div>
       <button type="submit" class="btn btn-primary">Edit</button>
     </form>

@@ -25,15 +25,40 @@ class Product extends Model
     return $this->belongsTo(Category::class);
 }
 
+protected $fillable = [
+    'name',
+    'description',
+    'price',
+    'image',
+    'quantity_store',
+];
+
+    
+
+
+
     public static function validate($request)
     {
         $request->validate([
             "name" => "required|max:255",
             "description" => "required",
             "price" => "required|numeric|gt:0",
+            'quantity_store',
             'image' => 'image',
         ]);
     }
+
+
+            public function getQuantityStore()
+        {
+            return $this->quantity_store;
+        }
+
+        public function setQuantityStore($quantity)
+        {
+            $this->quantity_store = $quantity;
+        }
+
 
     public static function sumPricesByQuantities($products, $productsInSession)
     {
